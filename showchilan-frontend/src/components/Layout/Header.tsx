@@ -12,7 +12,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-primario text-white shadow-lg">
+    <header className="relative bg-primario text-white shadow-lg">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:py-6">
         <div className="text-lg font-bold tracking-wide">
           SHOWCHILAN <span className="text-secundario">TURISMO</span>
@@ -32,7 +32,7 @@ export function Header() {
         <nav
           className={`${
             isMenuOpen ? 'flex' : 'hidden'
-          } absolute left-0 top-full w-full flex-col gap-4 bg-primario px-4 py-4 text-center text-base md:static md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:bg-transparent md:px-0 md:py-0`}
+          } absolute left-0 top-full z-20 w-full flex-col gap-4 bg-primario px-4 py-4 text-center text-base md:static md:flex md:w-auto md:flex-row md:items-center md:gap-6 md:bg-transparent md:px-0 md:py-0`}
         >
           {navLinks.map((link) => (
             <NavLink
