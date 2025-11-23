@@ -3,17 +3,8 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import type { Negocio } from '../../types/negocio';
 import { BusinessMarkerPopup } from './BusinessMarkerPopup';
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
 
 interface MapViewProps {
   negocios: Negocio[];
@@ -22,6 +13,20 @@ interface MapViewProps {
 }
 
 const defaultPosition: [number, number] = [-0.9, -78.95];
+
+const showchilanIcon = L.icon({
+  iconUrl:
+    'data:image/svg+xml;utf8,' +
+    encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48" fill="none">
+        <path d="M18 47.5S3 30.2 3 18A15 15 0 1 1 33 18c0 12.2-15 29.5-15 29.5Z" fill="#1f8ea4" stroke="#0f2748" stroke-width="2"/>
+        <circle cx="18" cy="18" r="6.5" fill="#f5efe6" stroke="#0f2748" stroke-width="2"/>
+      </svg>`,
+    ),
+  iconSize: [36, 48],
+  iconAnchor: [18, 48],
+  popupAnchor: [0, -44],
+});
 
 function MapFocus({ negocio }: { negocio?: Negocio }) {
   const map = useMap();
@@ -65,6 +70,7 @@ export function MapView({ negocios, selectedNegocioId, onSelect }: MapViewProps)
           eventHandlers={{
             click: () => onSelect(negocio),
           }}
+          icon={showchilanIcon}
           ref={(ref) => {
             markerRefs.current[negocio.id] = ref;
           }}
