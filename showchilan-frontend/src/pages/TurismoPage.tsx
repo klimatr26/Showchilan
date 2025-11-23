@@ -6,7 +6,7 @@ import { MapView } from '../components/Map/MapView';
 const fallbackNegocios: Negocio[] = [
   {
     id: 1,
-    nombre: 'Hostería Chugchilán',
+    nombre: 'Hostería Chugchilán Fallback',
     descripcion: 'Hospedaje con vista al cañón del Toachi y desayuno local incluido.',
     telefonoContacto: '+593 98 123 4567',
     latitud: -0.9055,
@@ -78,7 +78,7 @@ export function TurismoPage() {
           </div>
         ) : (
           <div className="mt-10 grid gap-6 lg:grid-cols-[320px_1fr]">
-            <aside className="space-y-4 rounded-3xl bg-white p-6 shadow-lg">
+            <aside className="space-y-4 rounded-3xl bg-white p-6 shadow-lg lg:h-[520px] lg:max-h-[520px] lg:overflow-y-auto">
               <h2 className="text-lg font-semibold text-primario">Negocios locales</h2>
               {error ? (
                 <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-700">{error}</p>
