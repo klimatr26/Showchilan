@@ -43,12 +43,17 @@ export function TurismoPage() {
     const controller = new AbortController();
     getNegocios(controller.signal)
       .then((data) => {
+        setError(null);
         setNegocios(data);
         if (data.length) {
           setSelectedNegocioId(data[0].id);
         }
       })
-      .catch(() => {
+      .catch((err: unknown) => {
+        // Si el fetch fue cancelado (StrictMode monta/desmonta en dev), no mostramos error.
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
         setError('No se pudo conectar con el directorio. Mostrando datos de referencia.');
         setNegocios(fallbackNegocios);
         setSelectedNegocioId(fallbackNegocios[0]?.id ?? null);
