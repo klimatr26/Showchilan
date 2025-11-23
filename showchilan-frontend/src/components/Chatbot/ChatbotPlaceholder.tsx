@@ -4,7 +4,7 @@ export function ChatbotPlaceholder() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-[1200]">
       {isOpen && (
         <div className="mb-3 w-72 rounded-2xl bg-white p-4 shadow-2xl">
           <div className="flex items-center justify-between">
