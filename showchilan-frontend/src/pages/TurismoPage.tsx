@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getNegocios } from '../api/negociosApi';
 import type { Negocio } from '../types/negocio';
 import { MapView } from '../components/Map/MapView';
@@ -38,6 +38,7 @@ export function TurismoPage() {
   const [selectedNegocioId, setSelectedNegocioId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const mapSectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -65,6 +66,10 @@ export function TurismoPage() {
 
   const handleSelect = (negocio: Negocio) => {
     setSelectedNegocioId(negocio.id);
+
+    if (typeof window !== 'undefined' && window.innerWidth < 1024 && mapSectionRef.current) {
+      mapSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -108,7 +113,7 @@ export function TurismoPage() {
               </div>
             </aside>
 
-            <div className="min-h-[520px]">
+            <div className="min-h-[520px]" ref={mapSectionRef}>
               <MapView negocios={negocios} selectedNegocioId={selectedNegocioId} onSelect={handleSelect} />
             </div>
           </div>
