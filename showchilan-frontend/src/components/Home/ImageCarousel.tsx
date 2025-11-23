@@ -32,7 +32,7 @@ export function ImageCarousel() {
   const currentImage = carouselImages[currentIndex];
 
   return (
-    <div className="relative h-80 w-full overflow-hidden rounded-3xl bg-slate-200 shadow-xl md:h-full">
+    <div className="relative h-80 w-full overflow-hidden rounded-3xl bg-slate-200 shadow-xl md:h-[480px] lg:h-[520px]">
       <img
         src={currentImage.url}
         alt={currentImage.caption}
