@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 
 import type { Negocio } from '../../types/negocio';
 import { BusinessMarkerPopup } from './BusinessMarkerPopup';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface MapViewProps {
   negocios: Negocio[];
@@ -45,6 +46,7 @@ function MapFocus({ negocio }: { negocio?: Negocio }) {
 export function MapView({ negocios, selectedNegocioId, onSelect }: MapViewProps) {
   const selectedNegocio = negocios.find((negocio) => negocio.id === selectedNegocioId);
   const markerRefs = useRef<Record<number, L.Marker | null>>({});
+  const { lang } = useLanguage();
 
   useEffect(() => {
     if (selectedNegocioId && markerRefs.current[selectedNegocioId]) {
@@ -58,10 +60,10 @@ export function MapView({ negocios, selectedNegocioId, onSelect }: MapViewProps)
       zoom={13}
       scrollWheelZoom={false}
       className="h-[520px] w-full rounded-3xl shadow-xl"
-    >
+      >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
+        attribution={lang === 'es' ? "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>" : "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>"}
       />
       {negocios.map((negocio) => (
         <Marker

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getNegocios } from '../api/negociosApi';
 import type { Negocio } from '../types/negocio';
 import { MapView } from '../components/Map/MapView';
+import { useLanguage } from '../context/LanguageContext';
 
 const fallbackNegocios: Negocio[] = [
   {
@@ -37,14 +38,15 @@ export function TurismoPage() {
   const [negocios, setNegocios] = useState<Negocio[]>([]);
   const [selectedNegocioId, setSelectedNegocioId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [hasError, setHasError] = useState(false);
   const mapSectionRef = useRef<HTMLDivElement | null>(null);
+  const { translations: t } = useLanguage();
 
   useEffect(() => {
     const controller = new AbortController();
     getNegocios(controller.signal)
       .then((data) => {
-        setError(null);
+        setHasError(false);
         setNegocios(data);
         if (data.length) {
           setSelectedNegocioId(data[0].id);
@@ -55,7 +57,7 @@ export function TurismoPage() {
         if (err instanceof DOMException && err.name === 'AbortError') {
           return;
         }
-        setError('No se pudo conectar con el directorio. Mostrando datos de referencia.');
+        setHasError(true);
         setNegocios(fallbackNegocios);
         setSelectedNegocioId(fallbackNegocios[0]?.id ?? null);
       })
@@ -75,23 +77,22 @@ export function TurismoPage() {
   return (
     <section className="bg-arena py-10">
       <div className="mx-auto max-w-6xl px-4">
-        <p className="text-xs uppercase tracking-[0.6em] text-secundario">Directorio</p>
-        <h1 className="mt-2 text-4xl font-semibold text-primario">Turismo y emprendimientos en Chugchilán</h1>
+        <p className="text-xs uppercase tracking-[0.6em] text-secundario">{t.turismo.eyebrow}</p>
+        <h1 className="mt-2 text-4xl font-semibold text-primario">{t.turismo.title}</h1>
         <p className="mt-3 max-w-3xl text-base text-slate-600">
-          Explora el mapa interactivo para contactar directamente con negocios locales. Selecciona un punto del mapa o
-          el listado lateral para conocer más detalles.
+          {t.turismo.intro}
         </p>
 
         {loading ? (
           <div className="mt-10 rounded-3xl bg-white p-8 text-center shadow">
-            <p className="text-slate-600">Cargando el mapa y los negocios...</p>
+            <p className="text-slate-600">{t.turismo.loading}</p>
           </div>
         ) : (
           <div className="mt-10 grid gap-6 lg:grid-cols-[320px_1fr]">
             <aside className="space-y-4 rounded-3xl bg-white p-6 shadow-lg lg:h-[520px] lg:max-h-[520px] lg:overflow-y-auto">
-              <h2 className="text-lg font-semibold text-primario">Negocios locales</h2>
-              {error ? (
-                <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-700">{error}</p>
+              <h2 className="text-lg font-semibold text-primario">{t.turismo.listTitle}</h2>
+              {hasError ? (
+                <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-700">{t.turismo.errorMessage}</p>
               ) : null}
               <div className="space-y-4">
                 {negocios.map((negocio) => (
@@ -107,7 +108,7 @@ export function TurismoPage() {
                   >
                     <p className="text-sm font-semibold text-secundario">{negocio.nombre}</p>
                     <p className="mt-1 text-xs text-slate-600">{negocio.descripcion}</p>
-                    <p className="mt-2 text-xs text-slate-500">Teléfono: {negocio.telefonoContacto}</p>
+                    <p className="mt-2 text-xs text-slate-500">{t.turismo.phoneLabel}: {negocio.telefonoContacto}</p>
                   </button>
                 ))}
               </div>

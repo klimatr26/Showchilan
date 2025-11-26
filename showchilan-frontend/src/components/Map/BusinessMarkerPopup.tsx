@@ -1,4 +1,5 @@
 import type { Negocio } from '../../types/negocio';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface BusinessMarkerPopupProps {
   negocio: Negocio;
@@ -6,6 +7,7 @@ interface BusinessMarkerPopupProps {
 
 export function BusinessMarkerPopup({ negocio }: BusinessMarkerPopupProps) {
   const mainImage = negocio.imagenes[0];
+  const { translations: t } = useLanguage();
 
   return (
     <div className="space-y-2">
@@ -18,7 +20,7 @@ export function BusinessMarkerPopup({ negocio }: BusinessMarkerPopupProps) {
         />
       ) : null}
       <p className="text-sm text-slate-600">{negocio.descripcion}</p>
-      <p className="text-sm font-semibold text-secundario">Teléfono: {negocio.telefonoContacto}</p>
+      <p className="text-sm font-semibold text-secundario">{t.turismo.phoneLabel}: {negocio.telefonoContacto}</p>
     </div>
   );
 }

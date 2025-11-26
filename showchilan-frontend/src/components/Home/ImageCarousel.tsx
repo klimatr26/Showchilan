@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 const carouselImages = [
   {
     url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80',
-    caption: 'Paisajes andinos',
   },
   {
     url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
-    caption: 'Caminatas ecológicas',
   },
   {
     url: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80',
-    caption: 'Comunidad y cultura',
   },
 ];
 
 export function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { translations: t } = useLanguage();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,17 +34,17 @@ export function ImageCarousel() {
     <div className="relative h-80 w-full overflow-hidden rounded-3xl bg-slate-200 shadow-xl md:h-[480px] lg:h-[520px]">
       <img
         src={currentImage.url}
-        alt={currentImage.caption}
+        alt={t.carouselCaptions[currentIndex]}
         className="h-full w-full object-cover transition duration-500"
       />
       <div className="absolute inset-x-0 top-4 flex items-center justify-between px-6">
         <span className="rounded-full bg-white/90 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primario">
-          Carrusel de Imágenes
+          {t.hero.badge}
         </span>
       </div>
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
         <p className="text-sm uppercase tracking-[0.4em] text-secundario">Chugchilán</p>
-        <h3 className="text-2xl font-semibold">{currentImage.caption}</h3>
+        <h3 className="text-2xl font-semibold">{t.carouselCaptions[currentIndex]}</h3>
       </div>
       <div className="absolute bottom-4 right-6 flex gap-2">
         {carouselImages.map((_, index) => (
